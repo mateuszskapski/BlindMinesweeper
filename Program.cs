@@ -6,5 +6,6 @@ var board = new Board(8, 8, rules);
 
 var mines = board.SetMines();
 Console.WriteLine($"Set {mines} mines.");
+
 var player = new Player(board);
 player.Go();
