@@ -1,21 +1,24 @@
 public class Board : ITracker<Position>
 {
+    private readonly int[,] _board;
+    private readonly GameRule _rule;
+
     public int Width { get; }
     public int Height { get; }
     public Position PlayerPosition { get; set; }
-    private readonly int[,] _board;
-    private int _lives = 3;
+    public int RemainingLives = 3;
 
-    public Board(int width, int height)
+    public Board(int width, int height, GameRule rule)
     {
         _board = new int[width, height];
+        _rule = rule;
+        
         Width = width;
         Height = height;
-
         PlayerPosition = new Position(Height - 1, 0);
     }
 
-    public int SetMines()
+    public virtual int SetMines()
     {
         var mines = 0;
         var random = new Random();
@@ -36,43 +39,19 @@ public class Board : ITracker<Position>
         return mines;
     }
 
-    public bool OnPositionChanged(Direction direction)
+    public void OnPositionChanged(ConsoleKey direction)
     {
         switch (direction)
         {
-            case Direction.Up: PlayerPosition.Row--; break; 
-            case Direction.Down: PlayerPosition.Row++; break; 
-            case Direction.Left: PlayerPosition.Column--; break; 
-            case Direction.Right: PlayerPosition.Column++; break; 
+            case ConsoleKey.U: PlayerPosition.Row--; break; 
+            case ConsoleKey.D: PlayerPosition.Row++; break; 
+            case ConsoleKey.L: PlayerPosition.Column--; break; 
+            case ConsoleKey.R: PlayerPosition.Column++; break; 
         }
         Console.WriteLine($"Position changed! Row: {PlayerPosition.Row}, Column: {PlayerPosition.Column}");
 
-        if (IsMine(PlayerPosition))
-        {
-            _lives--;
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("You stepped on a mine.");
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
-
-        if (_lives == 0)
-        {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("GameOver!");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            return false;
-        }
-
-        if (PlayerPosition.Row == 0)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("You won!");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            return false;
-        }
-
-        return true;
+        _rule.Rule(this);
     }
 
-    bool IsMine(Position position) => _board[position.Column, position.Row] % 2 != 0;
+    public virtual bool IsMine(Position position) => _board[position.Column, position.Row] % 2 != 0;
 }
