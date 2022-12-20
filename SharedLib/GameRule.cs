@@ -1,3 +1,4 @@
+namespace SharedLib;
 public abstract class GameRule
 {
     protected GameRule? _next;

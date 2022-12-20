@@ -1,3 +1,4 @@
+namespace SharedLib;
 public class Player
 {
     private ITracker<Position> _tracker;

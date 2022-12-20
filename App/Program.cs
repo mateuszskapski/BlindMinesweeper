@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using SharedLib;
+
 Console.WriteLine("Welcome to the game!");
 
 var rules = new StepOnMineRule().SetNext(new LoseRule()).SetNext(new WinRule());

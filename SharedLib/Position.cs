@@ -1,3 +1,4 @@
+namespace SharedLib;
 public class Position
 {
     public int Row { get; set; }

@@ -1,3 +1,4 @@
+namespace SharedLib;
 public class StepOnMineRule : GameRule
 {
     protected override bool KeepPlaying(Board board)

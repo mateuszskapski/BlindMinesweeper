@@ -1,3 +1,4 @@
+namespace SharedLib;
 public class Board : ITracker<Position>
 {
     private readonly int[,] _board;

@@ -1,3 +1,4 @@
+namespace SharedLib;
 public enum MoveDirection
 {
     Up,
