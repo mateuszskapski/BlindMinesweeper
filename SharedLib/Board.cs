@@ -37,6 +37,9 @@ public class Board : ITracker<Position>
             }
         }
 
+        if (mines == 0)
+            return SetMines();
+
         return mines;
     }
 
@@ -51,7 +54,7 @@ public class Board : ITracker<Position>
         }
         Console.WriteLine($"Position changed! Row: {PlayerPosition.Row}, Column: {PlayerPosition.Column}");
 
-        _rule.Rule(this);
+        _rule?.Rule(this);
     }
 
     public virtual bool IsMine(Position position) => _board[position.Column, position.Row] % 2 != 0;
