@@ -47,18 +47,9 @@ public class Board : ITracker<Position>
         return mines;
     }
 
-    public void OnPositionChanged(ConsoleKey direction)
+    public void OnPositionChanged(Position playerNewPosition)
     {
-        switch (direction)
-        {
-            case ConsoleKey.U: Player.MoveUp(); break; 
-            case ConsoleKey.D: Player.MoveDown(); break; 
-            case ConsoleKey.L: Player.MoveLeft(); break; 
-            case ConsoleKey.R: Player.MoveRight(); break; 
-            default: return;
-        }
-
-        Console.WriteLine($"Position changed! Row: {Player.CurrentPosition.Row}, Column: {Player.CurrentPosition.Column}");
+        Console.WriteLine($"Player position -> Row: {playerNewPosition.Row}, Column: {playerNewPosition.Column}");
         
         _rule?.KeepPlaying(this);
     }

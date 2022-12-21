@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using SharedLib;
+﻿using SharedLib;
 
 Console.WriteLine("Welcome to the game!");
 
@@ -10,4 +9,5 @@ board.CreatePlayer();
 var mines = board.SetMines();
 Console.WriteLine($"Set {mines} mines.");
 
-board.Player.Go();
+var controller = new PlayerMoveController(board.Player);
+controller.AwaitMove();
