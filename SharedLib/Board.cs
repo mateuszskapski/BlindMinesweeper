@@ -55,11 +55,15 @@ public class Board : ITracker<Position>
             case ConsoleKey.D: Player.MoveDown(); break; 
             case ConsoleKey.L: Player.MoveLeft(); break; 
             case ConsoleKey.R: Player.MoveRight(); break; 
+            default: return;
         }
-        Console.WriteLine($"Position changed! Row: {Player.CurrentPosition.Row}, Column: {Player.CurrentPosition.Column}");
 
+        Console.WriteLine($"Position changed! Row: {Player.CurrentPosition.Row}, Column: {Player.CurrentPosition.Column}");
+        
         _rule?.KeepPlaying(this);
     }
 
     public virtual bool IsMine(Position position) => _board[position.Column, position.Row] % 2 != 0;
+
+    public bool IsGameFinished => Player.Health == 0 || Player.CurrentPosition.Row == 0;
 }

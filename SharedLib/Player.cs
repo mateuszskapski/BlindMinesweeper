@@ -24,9 +24,13 @@ public class Player
         ConsoleKeyInfo cki;
         do
         {
+            Console.Write("Move: ");
             cki = Console.ReadKey();
+            Console.Write(" --> ");
             _tracker.OnPositionChanged(cki.Key);
 
-        } while (cki.Key != ConsoleKey.Escape);
+        } while (cki.Key != ConsoleKey.Escape && !_tracker.IsGameFinished);
     }
+
+    
 }
