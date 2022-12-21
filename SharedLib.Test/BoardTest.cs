@@ -12,7 +12,7 @@ public class BoardTest
         
         var board = CreateBoardWithNoRules();
 
-        Assert.Equal(BottomRowIndex, board.PlayerPosition.Row);
+        Assert.Equal(BottomRowIndex, board.Player.CurrentPosition.Row);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class BoardTest
         
         var board = CreateBoardWithNoRules();
 
-        Assert.Equal(MostLeftColumnIndex, board.PlayerPosition.Column);
+        Assert.Equal(MostLeftColumnIndex, board.Player.CurrentPosition.Column);
     }
 
     [Fact]
@@ -51,11 +51,11 @@ public class BoardTest
     public void ProcessPlayerNewPosition_PlayerRowPositionChangesToExpectedValue(ConsoleKey keyPressed, int rowIndexChange)
     {
         var board = CreateBoardWithNoRules();
-        var playerRowIndexBeforeMove = board.PlayerPosition.Row;
+        var playerRowIndexBeforeMove = board.Player.CurrentPosition.Row;
 
         board.OnPositionChanged(keyPressed);
 
-        var rowIndexChangedBy = playerRowIndexBeforeMove - board.PlayerPosition.Row;
+        var rowIndexChangedBy = playerRowIndexBeforeMove - board.Player.CurrentPosition.Row;
         Assert.Equal(rowIndexChange, rowIndexChangedBy);
     }
 
@@ -65,18 +65,21 @@ public class BoardTest
     public void ProcessPlayerNewPosition_PlayerColumnPositionChangesToExpectedValue(ConsoleKey keyPressed, int columnIndexChange)
     {
         var board = CreateBoardWithNoRules();
-        var playerColumnIndexBeforeMove = board.PlayerPosition.Column;
+        var playerColumnIndexBeforeMove = board.Player.CurrentPosition.Column;
 
         board.OnPositionChanged(keyPressed);
 
-        var columnIndexChangedBy = playerColumnIndexBeforeMove - board.PlayerPosition.Column;
+        var columnIndexChangedBy = playerColumnIndexBeforeMove - board.Player.CurrentPosition.Column;
         Assert.Equal(columnIndexChange, columnIndexChangedBy);
     }
 
     private static Board CreateBoardWithNoRules()
     {
         WinRule noRule = null;
-        return new Board(BoardWidth, BoardHeight, noRule);
+        var board = new Board(BoardWidth, BoardHeight, noRule);
+        board.CreatePlayer();
+
+        return board;
     }
 
 }

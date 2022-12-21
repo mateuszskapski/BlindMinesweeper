@@ -1,11 +1,11 @@
 namespace SharedLib;
 public class StepOnMineRule : GameRule
 {
-    protected override bool KeepPlaying(Board board)
+    protected override bool ExecuteRule(Board board)
     {
-        if (board.RemainingLives > 0 && board.IsMine(board.PlayerPosition))
+        if (board.Player.Health > 0 && board.IsMine(board.Player.CurrentPosition))
         {
-            board.RemainingLives--;
+            board.Player.ReduceHealth();
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("You stepped on a mine.");
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -19,9 +19,9 @@ public class StepOnMineRule : GameRule
 
 public class WinRule : GameRule
 {
-    protected override bool KeepPlaying(Board board)
+    protected override bool ExecuteRule(Board board)
     {
-        if (board.PlayerPosition.Row == 0)
+        if (board.Player.CurrentPosition.Row == 0)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("You won!");
@@ -35,9 +35,9 @@ public class WinRule : GameRule
 
 public class LoseRule : GameRule
 {
-    protected override bool KeepPlaying(Board board)
+    protected override bool ExecuteRule(Board board)
     {
-        if (board.RemainingLives == 0)
+        if (board.Player.Health == 0)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("GameOver!");

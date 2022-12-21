@@ -16,17 +16,17 @@ public abstract class GameRule
         return this;
     }
 
-    public virtual bool Rule(Board board)
+    public virtual bool KeepPlaying(Board board)
     {
-        var keepPlaying = KeepPlaying(board);
+        var keepPlaying = ExecuteRule(board);
         if (_next != null)
         {
             if (keepPlaying)
-                _next.Rule(board);
+                keepPlaying = _next.KeepPlaying(board);
         }
 
         return keepPlaying;
     }
 
-    protected abstract bool KeepPlaying(Board board);
+    protected abstract bool ExecuteRule(Board board);
 }

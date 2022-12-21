@@ -6,8 +6,7 @@ public class Board : ITracker<Position>
 
     public int Width { get; }
     public int Height { get; }
-    public Position PlayerPosition { get; set; }
-    public int RemainingLives = 3;
+    public Player Player { get; private set; }
 
     public Board(int width, int height, GameRule rule)
     {
@@ -16,7 +15,12 @@ public class Board : ITracker<Position>
         
         Width = width;
         Height = height;
-        PlayerPosition = new Position(Height - 1, 0);
+    }
+
+    public void CreatePlayer()
+    {
+        Player = new Player(this);
+        Player.SetInitialPosition(new Position(Height - 1, 0));
     }
 
     public virtual int SetMines()
@@ -47,14 +51,14 @@ public class Board : ITracker<Position>
     {
         switch (direction)
         {
-            case ConsoleKey.U: PlayerPosition.Row--; break; 
-            case ConsoleKey.D: PlayerPosition.Row++; break; 
-            case ConsoleKey.L: PlayerPosition.Column--; break; 
-            case ConsoleKey.R: PlayerPosition.Column++; break; 
+            case ConsoleKey.U: Player.MoveUp(); break; 
+            case ConsoleKey.D: Player.MoveDown(); break; 
+            case ConsoleKey.L: Player.MoveLeft(); break; 
+            case ConsoleKey.R: Player.MoveRight(); break; 
         }
-        Console.WriteLine($"Position changed! Row: {PlayerPosition.Row}, Column: {PlayerPosition.Column}");
+        Console.WriteLine($"Position changed! Row: {Player.CurrentPosition.Row}, Column: {Player.CurrentPosition.Column}");
 
-        _rule?.Rule(this);
+        _rule?.KeepPlaying(this);
     }
 
     public virtual bool IsMine(Position position) => _board[position.Column, position.Row] % 2 != 0;
